@@ -1,3 +1,4 @@
+import { openai } from "@constants";
 import getArticlesPreview from "./getArticlesPreview";
 
 /**
@@ -7,8 +8,32 @@ import getArticlesPreview from "./getArticlesPreview";
  * @param articles The articles to highlight into a summary
  * @param time How long the summary should take in minutes when read
  */
-const summarizeArticles = (articles: Article[], time: number) => {
-  console.log(getArticlesPreview(articles));
+const summarizeArticles = async (
+  articles: Article[],
+  time: number
+): Promise<string> => {
+  const articlesToSummarize = getArticlesPreview(articles);
+
+  const completion = await openai.chat.completions.create({
+    messages: [
+      {
+        role: "system",
+        content:
+          "You are a passionate AI enthusiast influencer well known " +
+          "for creating informative videos on the latest AI news.",
+      },
+      {
+        role: "user",
+        content:
+          "Considering these latest news articles about AI, create a summary of the most important highlights. " +
+          `The script should be readable in about ${time} minutes at a normal pace: \n${articlesToSummarize}`,
+      },
+    ],
+    model: "gpt-3.5-turbo-0125",
+    response_format: { type: "text" },
+  });
+
+  return completion.choices[0].message.content as string;
 };
 
 export default summarizeArticles;
