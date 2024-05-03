@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "paths": {
+      "@constants": ["./src/constants.ts"]
+    },
+
     // Enable latest features
     "lib": ["ESNext", "DOM"],
     "target": "ESNext",
