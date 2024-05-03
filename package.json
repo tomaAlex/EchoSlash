@@ -1,12 +1,15 @@
 {
   "name": "echoslash",
   "module": "index.ts",
-  "type": "module",
   "devDependencies": {
     "@types/bun": "^1.1.1",
     "prettier": "3.2.5"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "type": "module",
+  "dependencies": {
+    "openai": "^4.40.2"
   }
 }
