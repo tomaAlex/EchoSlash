@@ -60,14 +60,10 @@ app.get(
 );
 
 app.get("/", (req, res) => {
-  if (req.isAuthenticated()) {
-    res.render("index", {
-      user: req.user,
-      nodemailerUser: process.env.NODEMAILER_USER,
-    });
-    return;
-  }
-  res.redirect("/auth/google");
+  res.render("index", {
+    user: req.isAuthenticated() ? req.user : null,
+    nodemailerUser: process.env.NODEMAILER_USER,
+  });
 });
 
 // Logout route

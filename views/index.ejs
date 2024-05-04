@@ -70,7 +70,7 @@
     <h2>
       Stay up-to-date without the noise
       <img
-        width="60rem"
+        width="40rem"
         ratio="1:1"
         src="logo.png"
         alt="EchoSlash Logo"
@@ -129,7 +129,20 @@
           Logout
       </a>
     <% } else { %>
-      <a href="/auth/google">Login with Google</a>
+      <p class="flow-text">
+        As much as I would love to let you remain anonymous, I need to know who 
+        you are. There are bad people out there, you know? 😩
+      </p>
+
+      <p class="flow-text">
+        All I really need is your email address, I promise I won't spam you. You
+        will receive only one email with the news summary you requested. Hope you
+        enjoy the news while cleaning those dishes 🧼
+      </p>
+
+      <a href="/auth/google" class="btn waves-effect waves-light red login-button">
+        <i class="material-icons left">login</i>Login with Google
+      </a>
     <% } %>
     <div id="loading" style="display: none">Loading...</div>
     <div id="result"></div>
