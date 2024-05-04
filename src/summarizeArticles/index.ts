@@ -1,4 +1,9 @@
-import { WORDS_PER_MINUTE, openai } from "@constants";
+import {
+  AVERAGE_TOKENS_PER_WORD,
+  MAXIMUM_TOKENS_PER_GENERATION,
+  WORDS_PER_MINUTE,
+  openai,
+} from "@constants";
 import getArticlesPreview from "./getArticlesPreview";
 
 /**
@@ -16,6 +21,9 @@ const summarizeArticles = async (
 
   const articlesToSummarize = getArticlesPreview(articles);
 
+  const requestedWords = time * WORDS_PER_MINUTE;
+  const requestedTokens = Math.ceil(requestedWords * AVERAGE_TOKENS_PER_WORD);
+
   const completion = await openai.chat.completions.create({
     messages: [
       {
@@ -28,18 +36,20 @@ const summarizeArticles = async (
         role: "user",
         content:
           "Considering these latest news articles about AI, create a summary of the most important highlights. " +
-          `The script should contain about ${time * WORDS_PER_MINUTE} words: \n${articlesToSummarize}`,
+          `The script must contain ${requestedWords} words (${time} minutes to read): \n${articlesToSummarize}`,
       },
     ],
     model: "gpt-4-turbo",
     response_format: { type: "text" },
+    max_tokens: Math.min(requestedTokens, MAXIMUM_TOKENS_PER_GENERATION),
+    temperature: 1.5,
   });
 
   const articlesSummary = completion.choices[0].message.content as string;
 
   console.log(
     "articles summary generated! " +
-      `[${articlesSummary.match(/\w+/g)?.length} words / ${articlesSummary.length} (characters)]`
+      `[${articlesSummary.match(/\w+/g)?.length} words / ${articlesSummary.length} characters]`
   );
 
   return articlesSummary;
