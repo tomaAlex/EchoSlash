@@ -3,6 +3,7 @@
   "module": "index.ts",
   "devDependencies": {
     "@types/bun": "^1.1.1",
+    "@types/fluent-ffmpeg": "^2.1.24",
     "prettier": "3.2.5"
   },
   "peerDependencies": {
@@ -10,6 +11,7 @@
   },
   "type": "module",
   "dependencies": {
+    "fluent-ffmpeg": "^2.1.2",
     "openai": "^4.40.2"
   }
 }

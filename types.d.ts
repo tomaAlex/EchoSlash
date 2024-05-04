@@ -18,3 +18,5 @@ type Article = {
   publishedAt: string;
   content: string;
 };
+
+type SpeechPhrasesBatch = String[];
