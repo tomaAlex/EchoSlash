@@ -17,3 +17,14 @@ export const TEMPORARY_FILE_PREFIX = "tmp-";
 
 export const NEWS_API_URL = "https://newsapi.org/v2/everything";
 export const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+export enum NewsTopics {
+  Technology = "technology",
+  Business = "business",
+  Science = "science",
+  Health = "health",
+  Sports = "sports",
+  Entertainment = "entertainment",
+  General = "general",
+  AI = "AI",
+}

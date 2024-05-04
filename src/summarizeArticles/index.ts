@@ -1,10 +1,12 @@
 import {
   AVERAGE_TOKENS_PER_WORD,
   MAXIMUM_TOKENS_PER_GENERATION,
+  NewsTopics,
   WORDS_PER_MINUTE,
   openai,
 } from "@constants";
 import getArticlesPreview from "./getArticlesPreview";
+import { getDateLocale, getYesterdayDate } from "@utils/index";
 
 /**
  * Given some article news, use an LLM to summarize the highlights
@@ -12,10 +14,13 @@ import getArticlesPreview from "./getArticlesPreview";
  *
  * @param articles The articles to highlight into a summary
  * @param time How long the summary should take in minutes when read
+ * @param from Since when were the news retrieved (defaults to yesterday).
  */
 const summarizeArticles = async (
   articles: Article[],
-  time: number
+  topic: NewsTopics,
+  time: number,
+  from: Date = getYesterdayDate()
 ): Promise<string> => {
   console.log("summarizing articles...");
 
@@ -29,25 +34,27 @@ const summarizeArticles = async (
       {
         role: "system",
         content:
-          "You are a passionate AI enthusiast influencer by the name of EchoSlash well known for " +
-          "creating informative long and details videos on the latest AI news. You are very " +
-          "opinionated and like adding as  many details about how you feel of new changes in the " +
-          "AI industry after each presented update. You are about to create a new video script for " +
+          `You are a passionate ${topic} enthusiast influencer by the name of EchoSlash well known for ` +
+          `creating informative long and details videos on the latest ${topic} news. You are very ` +
+          "opinionated and like adding as many details about how you feel of new changes in the " +
+          `${topic} industry after each presented update. You are about to create a new video script for ` +
           "your next video which is even more detailed than usual, because this time you are especially " +
           "opinionated at every step! The structure of the script should be as follows: \n\n" +
           "1. Introduction: Present yourself and the video topic \n" +
-          "2. News Highlights: Summarize the latest news articles about AI \n" +
+          `2. News Highlights: Summarize the latest news articles about ${topic} \n` +
           "3. Personal Opinion: Share your thoughts and feelings about the news \n" +
           "4. Conclusion: Wrap up the video and encourage viewers to come back for more news next time \n\n" +
           "Your audience is eagerly waiting for your next video, so make sure to create a script that " +
-          "is long enough to cover all the important details!",
+          `is long enough to cover all the important details! Remember, today is ${getDateLocale(new Date())} ` +
+          `and these news articles are gathered since ${getDateLocale(from)} until so far. Do not forget ` +
+          "to remind the user what date is today and since when these news are presented! \n\n",
       },
       {
         role: "user",
         content:
-          "Considering these latest news articles about AI, create a summary of the most important highlights. " +
-          `The script must contain ${requestedWords * 2} words (${time * 2} minutes to read). Assume the script ` +
-          `must contain more text/ words/ tokens than usual: \n\n${articlesToSummarize}`,
+          `Considering these latest news articles about ${topic}, create a summary of the most important ` +
+          `highlights. The script must contain ${requestedWords * 2} words (${time * 2} minutes to read). ` +
+          `Assume the script must contain more text/ words/ tokens than usual: \n\n${articlesToSummarize}`,
       },
       {
         role: "user",
@@ -67,7 +74,7 @@ const summarizeArticles = async (
         role: "user",
         content:
           "Now, add a whole new section to the script where you discuss how " +
-          "these news articles will impact the future of AI. Make sure to add " +
+          `these news articles will impact the future of ${topic}. Make sure to add ` +
           "even more details and opinions in this new section!",
       },
     ],
