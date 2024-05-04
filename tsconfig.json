@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "paths": {
-      "@constants": ["./src/constants.ts"]
+      "@constants": ["./src/constants.ts"],
+      "@utils/*": ["./src/utils/*"]
     },
 
     // Enable latest features

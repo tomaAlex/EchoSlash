@@ -1,4 +1,5 @@
 import { NEWS_API_URL } from "@constants";
+import { getDateLocale } from "@utils/index";
 
 /**
  * Compute the fetching URL for the news on a topic from a starting date.
@@ -12,12 +13,7 @@ const getFetchUrl = (
   from: Date = new Date(new Date().setDate(new Date().getDate() - 1))
 ) =>
   `${NEWS_API_URL}?q=${q}&` +
-  `from=${from.toLocaleDateString("en-CA", {
-    // Canadian locale uses the YYYY-MM-DD format
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  })}&` +
+  `from=${getDateLocale(from)}&` +
   `sortBy=popularity&` +
   `apiKey=${process.env.NEWS_API_KEY}`;
 

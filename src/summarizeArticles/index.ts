@@ -1,4 +1,4 @@
-import { openai } from "@constants";
+import { WORDS_PER_MINUTE, openai } from "@constants";
 import getArticlesPreview from "./getArticlesPreview";
 
 /**
@@ -12,6 +12,8 @@ const summarizeArticles = async (
   articles: Article[],
   time: number
 ): Promise<string> => {
+  console.log("summarizing articles...");
+
   const articlesToSummarize = getArticlesPreview(articles);
 
   const completion = await openai.chat.completions.create({
@@ -26,14 +28,21 @@ const summarizeArticles = async (
         role: "user",
         content:
           "Considering these latest news articles about AI, create a summary of the most important highlights. " +
-          `The script should be readable in about ${time} minutes at a normal pace: \n${articlesToSummarize}`,
+          `The script should contain about ${time * WORDS_PER_MINUTE} words: \n${articlesToSummarize}`,
       },
     ],
-    model: "gpt-3.5-turbo-0125",
+    model: "gpt-4-turbo",
     response_format: { type: "text" },
   });
 
-  return completion.choices[0].message.content as string;
+  const articlesSummary = completion.choices[0].message.content as string;
+
+  console.log(
+    "articles summary generated! " +
+      `[${articlesSummary.match(/\w+/g)?.length} words / ${articlesSummary.length} (characters)]`
+  );
+
+  return articlesSummary;
 };
 
 export default summarizeArticles;
