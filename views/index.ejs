@@ -38,53 +38,60 @@
         class="logo-image"
       />
     </h2>
-    <p class="flow-text">
-      If you are like me and want to stay up-to-date with the latest news
-      without the noise, you can use this form to pick a news topic and receive
-      an email with a narrated concise summary. I don't care much about turning
-      a profit with this project, it's all open source here:
-      <a href="https://github.com/tomaAlex/EchoSlash">/tomaAlex/EchoSlash</a>
-    </p>
-    <form
-      hx-post="/submit"
-      hx-target="#result"
-      hx-swap="outerHTML"
-      hx-indicator="#loading"
-    >
-      <div class="input-field">
-        <select name="topic">
-          <option value="" disabled selected>Choose your option</option>
-          <option value="technology">Technology</option>
-          <option value="business">Business</option>
-          <option value="science">Science</option>
-          <option value="health">Health</option>
-          <option value="sports">Sports</option>
-          <option value="entertainment">Entertainment</option>
-          <option value="general">General</option>
-          <option value="AI">AI</option>
-        </select>
-        <label>News Topics</label>
-      </div>
-      <div class="input-field">
-        <input type="email" id="email" name="email" />
-        <label for="email">Email:</label>
-      </div>
-      <button
-        class="btn waves-effect waves-light submit-button"
-        type="submit"
-        name="action"
+    <% if (user) { %>
+      <p class="flow-text">
+        <%= user.displayName %>, if you are like me and want to stay up-to-date with 
+        the latest news without the noise, you can use this form to pick a news topic 
+        and receive an email with a narrated concise summary. I don't care much about 
+        turning a profit with this project, it's all open source here:
+        <a href="https://github.com/tomaAlex/EchoSlash">/tomaAlex/EchoSlash</a>
+      </p>
+
+      <form
+        hx-post="/submit"
+        hx-target="#result"
+        hx-swap="outerHTML"
+        hx-indicator="#loading"
       >
-        Submit
-        <i class="material-icons right">send</i>
-      </button>
-    </form>
-    <p class="flow-text">
-      This is a trial to figure out if people like it and want me to continue
-      developing it or want to help me develop it. If you have any feedback,
-      please send it to me at
-      <a href="mailto:<%= nodemailerUser %>"><%= nodemailerUser %></a>. For now,
-      you can get only one email, cheers 🍻
-    </p>
+        <div class="input-field">
+          <select name="topic">
+            <option value="" disabled selected>Choose your option</option>
+            <option value="technology">Technology</option>
+            <option value="business">Business</option>
+            <option value="science">Science</option>
+            <option value="health">Health</option>
+            <option value="sports">Sports</option>
+            <option value="entertainment">Entertainment</option>
+            <option value="general">General</option>
+            <option value="AI">AI</option>
+          </select>
+          <label>News Topics</label>
+        </div>
+        <button
+          class="btn waves-effect waves-light submit-button"
+          type="submit"
+          name="action"
+        >
+          Submit
+          <i class="material-icons right">send</i>
+        </button>
+      </form>
+
+      <p class="flow-text">
+        This is a trial to figure out if people like it and want me to continue
+        developing it or want to help me develop it. If you have any feedback,
+        please send it to me at
+        <a href="mailto:<%= nodemailerUser %>"><%= nodemailerUser %></a>. For now,
+        you can get only one email, cheers 🍻
+      </p>
+
+      <a href="/logout" class="btn waves-effect waves-light red logout-button">
+          <i class="material-icons left">power_settings_new</i>
+          Logout
+      </a>
+    <% } else { %>
+      <a href="/auth/google">Login with Google</a>
+    <% } %>
     <div id="loading" style="display: none">Loading...</div>
     <div id="result"></div>
 

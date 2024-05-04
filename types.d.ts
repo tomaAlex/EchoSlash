@@ -5,6 +5,10 @@ declare module "bun" {
     NODEMAILER_HOST: string;
     NODEMAILER_USER: string;
     NODEMAILER_PASS: string;
+    SESSION_SECRET: string;
+    PORT: string;
+    GOOGLE_CLIENT_ID: string;
+    GOOGLE_CLIENT_SECRET: string;
   }
 }
 
