@@ -9,6 +9,7 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 
 const app = express();
 const port = process.env.PORT ?? 3000;
+const domain = process.env.DOMAIN ?? "http://localhost";
 
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
@@ -33,7 +34,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: `http://localhost:${port}/auth/google/callback`,
+      callbackURL: `${domain}:${port}/auth/google/callback`,
     },
     function (accessToken, refreshToken, profile, cb) {
       // For now, just pass the profile to the callback
@@ -104,5 +105,5 @@ app.post("/submit", async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}/`);
+  console.log(`Server running at ${domain}:${port}/`);
 });

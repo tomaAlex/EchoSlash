@@ -9,6 +9,7 @@ declare module "bun" {
     PORT: string;
     GOOGLE_CLIENT_ID: string;
     GOOGLE_CLIENT_SECRET: string;
+    DOMAIN: string;
   }
 }
 
