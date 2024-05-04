@@ -2,14 +2,13 @@ import fs from "fs";
 import path from "path";
 import getSpeechTitle from "./getSpeechTitle";
 import { SUMMARIES_DIRECTORY, TEMPORARY_FILE_PREFIX } from "@constants";
+import { enforceDirectoryExistence } from "@utils/enforceDirectoryExistence";
 
-const getSpeechFile = (batchIndex?: number) => {
-  const outputDirectory = path.resolve(`./${SUMMARIES_DIRECTORY}`);
+const getSpeechFile = (userId: string, batchIndex?: number) => {
+  const outputDirectory = path.resolve(`./${SUMMARIES_DIRECTORY}/${userId}`);
 
   // make sure the output directory is created
-  if (!fs.existsSync(outputDirectory)) {
-    fs.mkdirSync(outputDirectory);
-  }
+  enforceDirectoryExistence(outputDirectory);
 
   if (batchIndex != undefined) {
     return path.resolve(

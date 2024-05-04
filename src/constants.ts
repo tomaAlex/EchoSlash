@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+import nodemailer from "nodemailer";
 
 export const WORDS_PER_MINUTE = 150;
 export const MAXIMUM_MINUTES_TIMELINE = 10;
@@ -28,3 +29,13 @@ export enum NewsTopics {
   General = "general",
   AI = "AI",
 }
+
+export const transporter = nodemailer.createTransport({
+  host: process.env.NODEMAILER_HOST,
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.NODEMAILER_USER,
+    pass: process.env.NODEMAILER_PASS,
+  },
+});

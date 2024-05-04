@@ -9,4 +9,4 @@ const topic = NewsTopics.Technology;
 const articles = await getNews(topic, yesterday);
 const summary = await summarizeArticles(articles, topic, 10, yesterday);
 
-await generateSummarySpeech(summary);
+await generateSummarySpeech(summary, process.env.NODEMAILER_USER);
