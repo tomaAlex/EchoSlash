@@ -1,0 +1,17 @@
+body {
+  padding: 5rem;
+}
+
+/* Smaller padding on smaller screens */
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+}
+
+.submit-button {
+  width: 50%;
+  margin: 0 auto;
+  display: block;
+  max-width: 10rem;
+}

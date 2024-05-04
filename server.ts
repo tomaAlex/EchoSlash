@@ -10,16 +10,19 @@ const port = 8080;
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(multer().none()); // handle form-data for non-file fields
+app.set("view engine", "ejs"); // server-side rendering
 
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/public/index.html");
+  res.render("index", {
+    nodemailerUser: process.env.NODEMAILER_USER,
+  });
 });
 
 app.post("/submit", async (req, res) => {
   const { topic, email } = req.body;
 
   if (fs.existsSync(`./${SUMMARIES_DIRECTORY}/${email}`)) {
-    res.send(`<h2>Do you like it this much? 🤓</h2>`);
+    res.send(`<h4 style="color: red;">Do you like it this much? 🤓</h4>`);
     return;
   }
 
